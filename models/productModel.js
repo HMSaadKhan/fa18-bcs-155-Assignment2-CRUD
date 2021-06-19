@@ -21,7 +21,6 @@ function validateProduct(data){
 
 }
 
-var User = mongoose.model("User",productSchema);
 
 var Product = mongoose.model("data",productSchema);
 module.exports.Product = Product;
