@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var MerchModelData= require("../../models/productModel");
+var {MerchModelData}= require("../../models/productModel");
 
 router.get("/", async(req, res)=>{
     let data = await MerchModelData.find();

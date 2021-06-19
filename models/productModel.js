@@ -1,9 +1,28 @@
 var mongoose = require('mongoose');
+const Joi = require('@hapi/joi');
 var productSchema = mongoose.Schema({
     Name: String,
     Anime: String,
-    Type : String 
+    Type : String,
+    Price: Number,
+    Description: String,
+    Image: String, 
 });
+function validateProduct(data){
+    const schema = Joi.Object({
+        name: Joi.string().min(3).max(10).required(),
+        Anime: Joi.string().min(3).max(10).required(),
+        Type: Joi.string().min(10).required(),
+        Anime: Joi.number().min(0).required(),
+        Description: Joi.string().min(10).max(120).required(),
+       
+    });
+    return schema.validate(data,{abortEarly:false});
+
+}
+
+var User = mongoose.model("User",productSchema);
 
 var Product = mongoose.model("data",productSchema);
-module.exports = Product;
+module.exports.Product = Product;
+module.exports.validate = validateProduct;
