@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
+const config = express('config');
+const _ =require('lodash');
 var {UserModel}= require("../../models/userModel");
 
 router.post("/register", async(req, res)=>{
@@ -13,9 +15,18 @@ router.post("/register", async(req, res)=>{
      let salt =await bcrypt.genSalt(10);
      user.password= await bcrypt.hash(user.password,salt);
      await user.save();
-     return res.send(user);
+     return res.send(_.pick(user,["name","email"]));
 
     });
+    router.post("/login", async(req, res)=>{
+        let user= await UserModel.findOne({email:req.body.email});
+        if(user)  return res.status(400).send("User not exist");
+        let isValid= await bcrypt.compare(req.body.password,user.password);
+        if(!isValid)  return res.status(400).send("User not exist");
+        let token= jwt.sign({_id: user._id, name:user.name},config.get("jwtPrivateKey")) 
+        return res.send("logged in Successfully");
+    
+        });
         
     
 
