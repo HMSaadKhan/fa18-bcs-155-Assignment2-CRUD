@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var {MerchModelData}= require("../../models/productModel");
-
-router.get("/", async(req, res)=>{
+var validateProduct= require("../../middlewares/validateProducts");
+var auth= require("../../middlewares/auth");
+router.get("/",auth, async(req, res)=>{
     let data = await MerchModelData.find();
     return res.send(data)
 })

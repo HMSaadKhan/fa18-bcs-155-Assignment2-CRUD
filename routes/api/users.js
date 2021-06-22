@@ -24,7 +24,7 @@ router.post("/register", async(req, res)=>{
         let isValid= await bcrypt.compare(req.body.password,user.password);
         if(!isValid)  return res.status(400).send("User not exist");
         let token= jwt.sign({_id: user._id, name:user.name},config.get("jwtPrivateKey")) 
-        return res.send("logged in Successfully");
+        return res.send(token);
     
         });
         
