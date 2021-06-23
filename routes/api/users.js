@@ -12,8 +12,8 @@ router.post("/register", async(req, res)=>{
      user.name = req.body.name;
      user.email = req.body.email;
      user.password = req.body.password;
-     let salt =await bcrypt.genSalt(10);
-     user.password= await bcrypt.hash(user.password,salt);
+     user.generateHashedPassword();    
+     
      await user.save();
      return res.send(_.pick(user,["name","email"]));
 
