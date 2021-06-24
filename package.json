@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "web": "node www/app.js"
+    "web": "node ./bin/www"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
