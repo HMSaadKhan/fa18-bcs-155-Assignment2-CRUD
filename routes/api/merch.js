@@ -1,9 +1,22 @@
 var express = require('express');
 var router = express.Router();
+var multer  = require('multer')
 var {MerchModelData}= require("../../models/productModel");
 var validateProduct= require("../../middlewares/validateProducts");
 var auth= require("../../middlewares/auth");
-router.get("/",auth, async(req, res)=>{
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+});
+var upload = multer({ storage: storage });
+
+router.get("/", async(req, res)=>{
     let data = await MerchModelData.find();
     return res.send(data)
 })
@@ -50,13 +63,15 @@ router.get("/:id", async(req, res)=>{
      } 
   })
  //insert
- router.put("/", async(req, res)=>{
+ router.put("/", upload.single('product-image'), async(req, res)=>{
       let data = new MerchModelData();
       data.Name = req.body.Name;
       data.Anime = req.body.Anime;
       data.Type = req.body.Type;
-      await data.save();
-      
+      data.Price = req.body.Price;
+      data.Description = req.body.Description;
+      data.Image = req.body.Image;
+      await data.save();      
       return res.send(data)  
      
   })

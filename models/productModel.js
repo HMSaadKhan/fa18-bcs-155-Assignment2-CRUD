@@ -23,5 +23,5 @@ function validateProduct(data){
 
 
 var Product = mongoose.model("data",productSchema);
-module.exports.Product = Product;
+module.exports.MerchModelData = Product;
 module.exports.validate = validateProduct;

@@ -1,4 +1,4 @@
 {
-    "db": "mongodb://localhost/merchstore",
-    "jwtPrivateKey": "SomePrivateKey"
+    "db": "db",
+    "jwtPrivateKey": "jwtPrivateKey"
 }
