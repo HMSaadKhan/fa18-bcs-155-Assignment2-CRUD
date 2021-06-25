@@ -6,25 +6,25 @@ var UserSchema = mongoose.Schema({
     Email: String,
     Password : String 
 });
-UserSchema.methods.generateHasedPassword =  async function(){
+UserSchema.methods.generateHashedPassword=  async function(){
     let salt =await bcrypt.genSalt(10);
-     user.password= await bcrypt.hash(user.password,salt);
+     this.Password= await bcrypt.hash(this.Password,salt);
 }
 var User = mongoose.model("User",UserSchema); 
 function validateUserSignup(data){
     const schema = Joi.Object({
-        name: Joi.string().min(3).max(10).required(),
-        email: Joi.string().email().min(3).max(10).required(),
-        password: Joi.string().min(8).required(),
+        Name: Joi.string().min(3).max(10).required(),
+        Email: Joi.string().email().min(3).max(10).required(),
+        Password: Joi.string().min(8).required(),
     });
     return schema.validate(data,{abortEarly:false});
 
 }
 function validateUserSignin(data){
     const schema = Joi.Object({
-        name: Joi.string().min(3).max(10).required(),
+        Name: Joi.string().min(3).max(10).required(),
         Email: Joi.string().email().min(3).max(10).required(),
-        password: Joi.string().min(8).required(),
+        Password: Joi.string().min(8).required(),
     });
     return schema.validate(data,{abortEarly:false});
 
@@ -32,6 +32,6 @@ function validateUserSignin(data){
 
 
 
-module.exports.user = User;
+module.exports.UserModel = User;
 module.exports.validateSignin = validateUserSignin;
 module.exports.validateSignup = validateUserSignup;
