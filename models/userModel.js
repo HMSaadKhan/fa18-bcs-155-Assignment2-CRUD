@@ -4,7 +4,12 @@ const Joi = require('@hapi/joi');
 var UserSchema = mongoose.Schema({
     Name: String,
     Email: String,
-    Password : String 
+    Password : String, 
+    role:{
+        type: String,
+        default: "user"
+
+    },
 });
 UserSchema.methods.generateHashedPassword=  async function(){
     let salt =await bcrypt.genSalt(10);

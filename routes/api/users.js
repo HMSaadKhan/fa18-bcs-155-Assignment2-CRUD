@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
-const config = express('config');
+const config = require('config');
+var jwt = require('jsonwebtoken');
 const  _ =require('lodash');
 var {UserModel}= require("../../models/userModel");
 
@@ -20,11 +21,13 @@ router.post("/register", async(req, res)=>{
     });
     router.post("/login", async(req, res)=>{
         let user= await UserModel.findOne({Email:req.body.Email});
-        if(user)  return res.status(400).send("User not exist");
+        if(!user)  return res.status(400).send("User not exist");
         let isValid= await bcrypt.compare(req.body.Password,user.Password);
-        if(!isValid)  return res.status(400).send("User not exist");
-        let token= jwt.sign({_id: user._id, Name:user.Name},config.get("jwtPrivateKey")) 
-        return res.send(token);
+        if(!isValid)  return res.status(400).send("wrongPassword");
+        let token= jwt.sign(
+            {_id: user._id, Name:user.Name},
+            config.get("jwtPrivateKey"));  
+        return res.send("Logged in");
     
         });
         
