@@ -34,7 +34,7 @@ router.get("/:id", async(req, res)=>{
     } 
  })
  //update
- router.put("/:id",validateProduct, async(req, res)=>{
+ router.put("/:id", async(req, res)=>{
      try {
       let data = await MerchModelData.findById(req.params.id);
       data.Name = req.body.Name;
@@ -63,7 +63,7 @@ router.get("/:id", async(req, res)=>{
      } 
   })
  //insert
- router.put("/",auth,validateProduct, upload.single('product-image'), async(req, res)=>{
+ router.put("/", upload.single('product-image'), async(req, res)=>{
       let data = new MerchModelData();
       data.Name = req.body.Name;
       data.Anime = req.body.Anime;

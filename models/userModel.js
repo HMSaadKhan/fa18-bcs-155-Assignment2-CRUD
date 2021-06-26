@@ -5,9 +5,9 @@ var UserSchema = mongoose.Schema({
     Name: String,
     Email: String,
     Password : String, 
-    role:{
+    Role:{
         type: String,
-        default: "user"
+        default: "user",
 
     },
 });

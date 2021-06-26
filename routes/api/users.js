@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
-const config = require('config');
+const config = require  ('config');
 var jwt = require('jsonwebtoken');
 const  _ =require('lodash');
 var {UserModel}= require("../../models/userModel");
@@ -25,11 +25,16 @@ router.post("/register", async(req, res)=>{
         let isValid= await bcrypt.compare(req.body.Password,user.Password);
         if(!isValid)  return res.status(400).send("wrongPassword");
         let token= jwt.sign(
-            {_id: user._id, Name:user.Name},
+            {_id: user._id, Name:user.Name, Role:user.Role},
             config.get("jwtPrivateKey"));  
-        return res.send("Logged in");
+        return res.send(token);
     
-        });
+        });     
+
+        router.get("/", async(req, res)=>{
+            let data = await UserModel.find();
+            return res.send(data)
+        })
         
     
 
